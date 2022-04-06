@@ -5,8 +5,14 @@ const Footer = () => {
     <Box
       sx={{
         padding: '1rem 4rem',
-        backgroundColor: '#1d3557',
+        backgroundImage:
+          'linear-gradient(to right top, #051937, #004d7a, #008793)',
         color: '#fff',
+        // position: 'absolute',
+        // bottom: 0,
+        // width: '100%',
+        // zIndex: -1,
+        // overflow: 'hidden',
       }}
     >
       <Typography sx={{ textAlign: 'center' }}>

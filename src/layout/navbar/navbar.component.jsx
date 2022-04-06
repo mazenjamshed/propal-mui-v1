@@ -1,31 +1,17 @@
-import {
-  AppBar,
-  Typography,
-  Toolbar,
-  Box,
-  Container,
-  Modal,
-} from '@mui/material';
+import { AppBar, Typography, Toolbar, Box, Container } from '@mui/material';
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import { PrimaryButton } from '../../components/buttons/primary-button.component';
-import SignIn from '../../components/forms/sign-in.component';
+import { modalActions } from '../../store/slices/modal';
 
 const Navbar = () => {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    // border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
+  const dispatch = useDispatch();
+  const handlebuttonClick = () => {
+    dispatch(modalActions.showModal());
   };
+  const navigate = useNavigate();
+
   return (
     <>
       <AppBar
@@ -47,24 +33,28 @@ const Navbar = () => {
               }}
             >
               <Typography variant='h4' component='h1'>
-                Propal.com
+                <Link
+                  to='/'
+                  style={{ textDecoration: 'none', color: 'inherit' }}
+                >
+                  Propal.com
+                </Link>
               </Typography>
-              <PrimaryButton onClick={handleOpen}>Sign In</PrimaryButton>
+              <Box>
+                <PrimaryButton
+                  onClick={() => navigate('/add')}
+                  sx={{ marginRight: '2rem' }}
+                >
+                  Add a Property
+                </PrimaryButton>
+                <PrimaryButton onClick={handlebuttonClick}>
+                  Sign In
+                </PrimaryButton>
+              </Box>
             </Box>
           </Toolbar>
         </Container>
       </AppBar>
-      {/* // ! Remove later */}
-      <Modal //Todo For testing of Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby='modal-modal-title'
-        aria-describedby='modal-modal-description'
-      >
-        <Box sx={style}>
-          <SignIn />
-        </Box>
-      </Modal>
     </>
   );
 };

@@ -1,6 +1,8 @@
 import { Box, Button, Paper, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
-const PropertyCard = () => {
+const PropertyCard = ({ linkHandler }) => {
+  const navigate = useNavigate();
   return (
     <Paper
       elevation={24}
@@ -18,6 +20,7 @@ const PropertyCard = () => {
           transform: 'scale(1.025) skew(-8deg)',
         },
       }}
+      onClick={linkHandler}
     >
       <Box
         sx={{
@@ -29,6 +32,7 @@ const PropertyCard = () => {
       >
         <img
           src={require('./../../assets/img/hero-1.jpg')}
+          alt='test'
           style={{
             width: '100%',
             height: '100%',
@@ -84,6 +88,9 @@ const PropertyCard = () => {
             variant='contained'
             color='secondary'
             sx={{ backgroundColor: '#1d3557' }}
+            onClick={() => {
+              navigate('./property');
+            }}
           >
             See More
           </Button>

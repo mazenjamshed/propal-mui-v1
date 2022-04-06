@@ -4,12 +4,13 @@ import './index.css';
 import App from './App';
 import { ThemeProvider } from '@mui/material/styles';
 import { DefaultTheme } from './MuiTheme';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Router>
     <ThemeProvider theme={DefaultTheme}>
       <App />
     </ThemeProvider>
-  </React.StrictMode>,
+  </Router>,
   document.getElementById('root')
 );

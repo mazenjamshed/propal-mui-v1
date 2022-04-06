@@ -4,8 +4,14 @@ import PropertyCard from '../../../components/cards/property-card.component';
 
 const Rent = () => {
   return (
-    <Box>
-      <Container maxWidth='lg' sx={{ padding: '3rem 5rem' }}>
+    <Box
+      sx={{
+        bgcolor: '#1d3557',
+        // backgroundImage:
+        //   'linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12)',
+      }}
+    >
+      <Container maxWidth='lg' sx={{ padding: '3rem 5rem', color: '#fff' }}>
         <Typography variant='h2' component='h2'>
           Recent Houses for Rent
         </Typography>

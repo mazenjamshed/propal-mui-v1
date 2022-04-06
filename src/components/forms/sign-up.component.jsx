@@ -1,6 +1,6 @@
 import { Button, TextField, Box, Typography } from '@mui/material';
 
-const SignIn = () => {
+const SignUp = () => {
   return (
     <form
       onSubmit={(e) => {
@@ -25,8 +25,16 @@ const SignIn = () => {
             marginBottom: '2rem',
           }}
         >
-          Sign In
+          Create Account
         </Typography>
+        <TextField
+          variant='standard'
+          label='Name'
+          type='text'
+          sx={{
+            marginBottom: '2rem',
+          }}
+        />
         <TextField
           variant='standard'
           label='Email'
@@ -43,17 +51,25 @@ const SignIn = () => {
             marginBottom: '2rem',
           }}
         />
+        <TextField
+          variant='standard'
+          label='Confirm Password'
+          type='password'
+          sx={{
+            marginBottom: '2rem',
+          }}
+        />
         <Button
           variant='contained'
           sx={{ bgcolor: '#1d3557' }}
           onClick={() => console.log('submit by button')}
           type='submit'
         >
-          Login
+          Create Account
         </Button>
       </Box>
     </form>
   );
 };
 
-export default SignIn;
+export default SignUp;
