@@ -1,6 +1,42 @@
 import { Button, TextField, Box, Typography } from '@mui/material';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { signupAction } from '../../store/slices/authSlice';
 
 const SignUp = () => {
+  const [username, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const dispatch = useDispatch();
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+  };
+
+  const handleRegistration = (e) => {
+    e.preventDefault();
+
+    console.log(
+      'registation submitted',
+      `name:${username}`,
+      `email:${email}`,
+      `password:${password}`,
+      `confirmPassword:${confirmPassword}`
+    );
+
+    dispatch(signupAction({ username, email, password, confirmPassword }));
+  };
   return (
     <form
       onSubmit={(e) => {
@@ -31,6 +67,8 @@ const SignUp = () => {
           variant='standard'
           label='Name'
           type='text'
+          onChange={handleNameChange}
+          value={username}
           sx={{
             marginBottom: '2rem',
           }}
@@ -39,6 +77,8 @@ const SignUp = () => {
           variant='standard'
           label='Email'
           type='email'
+          onChange={handleEmailChange}
+          value={email}
           sx={{
             marginBottom: '2rem',
           }}
@@ -47,6 +87,8 @@ const SignUp = () => {
           variant='standard'
           label='Password'
           type='password'
+          onChange={handlePasswordChange}
+          value={password}
           sx={{
             marginBottom: '2rem',
           }}
@@ -55,6 +97,8 @@ const SignUp = () => {
           variant='standard'
           label='Confirm Password'
           type='password'
+          onChange={handleConfirmPasswordChange}
+          value={confirmPassword}
           sx={{
             marginBottom: '2rem',
           }}
@@ -62,7 +106,7 @@ const SignUp = () => {
         <Button
           variant='contained'
           sx={{ bgcolor: '#1d3557' }}
-          onClick={() => console.log('submit by button')}
+          onClick={handleRegistration}
           type='submit'
         >
           Create Account

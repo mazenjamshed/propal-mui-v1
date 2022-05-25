@@ -11,12 +11,13 @@ const ListItem = styled('li')(() => ({
   '&:hover': {
     backgroundColor: '#1d3557',
     color: 'white',
+    cursor: 'pointer',
   },
 }));
 const List = () => {
   return (
     <ul className='container'>
-      <ListItem>Active Listings</ListItem>
+      <ListItem>Properties</ListItem>
       <ListItem>Active Listings</ListItem>
       <ListItem>Active Listings</ListItem>
     </ul>

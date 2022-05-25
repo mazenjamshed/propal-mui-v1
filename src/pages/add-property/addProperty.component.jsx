@@ -18,21 +18,30 @@ import 'react-quill/dist/quill.snow.css';
 
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import { useDispatch } from 'react-redux';
+import { addProperty } from '../../store/slices/propertySlice';
 
 const AddProperty = () => {
-  const [city, setCity] = useState('');
-  // const handleChange = (event) => {
-  //   setCity(event.target.value);
-  // };
-
-  const [phoneValue, setPhoneValue] = useState('');
-
-  const onPhoneChange = (e) => {
-    console.log(e);
+  const [title, setTitle] = useState('');
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
   };
-  const [quillValue, setQuillValue] = useState('');
-  console.log(quillValue);
 
+  const [price, setPrice] = useState('');
+  const handlePriceChange = (e) => {
+    setPrice(e.target.value);
+  };
+  const [propertyFor, setPropertyFor] = useState('buy');
+  const handlePropertyFor = (e) => {
+    setPropertyFor(e.target.value);
+  };
+
+  const [propertyType, setPropertyType] = useState('residential');
+  const handlePropertyType = (e) => {
+    setPropertyType(e.target.value);
+  };
+
+  const [city, setCity] = useState('LHR');
   const cities = [
     {
       value: 'LHR',
@@ -43,6 +52,64 @@ const AddProperty = () => {
       label: 'Karachi',
     },
   ];
+  const handleCityChange = (event) => {
+    setCity(event.target.value);
+  };
+
+  const [area, setArea] = useState('');
+  const handleAreaChange = (e) => {
+    setArea(e.target.value);
+  };
+
+  const [detailedAddress, setDetailedAddress] = useState('');
+  const handleDetailedAddress = (e) => {
+    setDetailedAddress(e.target.value);
+  };
+
+  const [phoneNumber, setPhoneValue] = useState('');
+  const handlePhoneChange = (e) => {
+    setPhoneValue(e);
+  };
+
+  const [description, setDescription] = useState('');
+  const handleDescriptionChange = (e) => {
+    setDescription(e);
+  };
+
+  const dispatch = useDispatch();
+  const handleSubmission = (e) => {
+    // Object of all Values
+    console.log({
+      title,
+      price,
+      propertyFor,
+      propertyType,
+      city,
+      area,
+      detailedAddress,
+      phoneNumber,
+      description,
+    });
+
+    dispatch(
+      addProperty({
+        title,
+        price,
+        propertyFor,
+        propertyType,
+        city,
+        area,
+        detailedAddress,
+        phoneNumber,
+        description,
+      })
+    );
+  };
+
+  //!=============================
+
+  // ---------------------------------Handlers -----------------------------------------
+
   return (
     <Box>
       <Box
@@ -72,6 +139,26 @@ const AddProperty = () => {
           },
         }}
       >
+        <Typography mt={2}>Give your property a name:</Typography>
+
+        <TextField
+          id='outlined-basic'
+          label='Title'
+          variant='outlined'
+          sx={{ display: 'block' }}
+          value={title}
+          onChange={handleTitleChange}
+        />
+        <Typography mt={2}>Give your property a value:</Typography>
+
+        <TextField
+          id='outlined-basic'
+          label='Price(pkr)'
+          variant='outlined'
+          sx={{ display: 'block' }}
+          value={price}
+          onChange={handlePriceChange}
+        />
         <FormControl sx={{ marginTop: '1rem' }}>
           <FormLabel id='demo-row-radio-buttons-group-label'>
             Property:
@@ -80,6 +167,8 @@ const AddProperty = () => {
             row
             aria-labelledby='demo-row-radio-buttons-group-label'
             name='row-radio-buttons-group'
+            onChange={handlePropertyFor}
+            value={propertyFor}
           >
             <FormControlLabel value='buy' control={<Radio />} label='Buy' />
             <FormControlLabel value='rent' control={<Radio />} label='Rent' />
@@ -93,6 +182,8 @@ const AddProperty = () => {
             row
             aria-labelledby='demo-row-radio-buttons-group-label'
             name='row-radio-buttons-group'
+            onChange={handlePropertyType}
+            value={propertyType}
           >
             <FormControlLabel
               value='residential'
@@ -123,7 +214,7 @@ const AddProperty = () => {
             select
             label='City'
             value={city}
-            // onChange={handleChange}
+            onChange={handleCityChange}
             helperText='Please select your currency'
           >
             {cities.map((option) => (
@@ -138,6 +229,8 @@ const AddProperty = () => {
             id='area-selection'
             label='Area'
             // defaultValue='e.g. Bahria Town'
+            value={area}
+            onChange={handleAreaChange}
             placeholder='e.g. Bahria Town'
           />
           <Box sx={{ width: '26rem' }}>
@@ -148,20 +241,22 @@ const AddProperty = () => {
               multiline
               rows={4}
               sx={{ width: '100%' }}
+              value={detailedAddress}
+              onChange={handleDetailedAddress}
             />
           </Box>
           <PhoneInput
             country={'pk'}
-            value={phoneValue}
-            onChange={onPhoneChange}
+            value={phoneNumber}
+            onChange={handlePhoneChange}
             placeholder='+92 333 1234567'
           />
 
           <Box>
             <ReactQuill
               theme='snow'
-              value={quillValue}
-              onChange={setQuillValue}
+              value={description}
+              onChange={handleDescriptionChange}
             />
           </Box>
         </Box>
@@ -175,6 +270,7 @@ const AddProperty = () => {
             width: '16rem',
             margin: '2rem 0',
           }}
+          onClick={handleSubmission}
         >
           Submit
         </Button>

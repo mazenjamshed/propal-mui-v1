@@ -1,44 +1,40 @@
-import { Button, TextField, Box, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { Typography, TextField, Button, Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
+import { adminActions, adminLogin } from '../../store/slices/adminSlice';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginAction } from '../../store/slices/authSlice';
 
-const SignIn = () => {
-  const [email, setEmail] = useState('');
+const AdminForm = () => {
+  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
-
-  const isAuthenticated = useSelector(({ auth }) => auth.isAuthenticated);
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    // console.log('login ', `email:${email}`, `password:${password}`);
-
-    dispatch(loginAction({ email, password }));
+  const handleNameChange = (e) => {
+    setName(e.target.value);
   };
 
-  useEffect(() => {
-    if (isAuthenticated) navigate('./dashboard');
-  }, [isAuthenticated]);
+  const handleAdminLogin = (e) => {
+    e.preventDefault();
+    dispatch(adminLogin({ name, password }));
 
-  console.log(email); // current email
-  console.log(password); // current password
+    // console.log(name, password);
+  };
+  const isLoggedIn = useSelector(({ admin }) => admin.isLoggedIn);
+  useEffect(() => {
+    if (isLoggedIn) navigate('/adminDashboard');
+  }, [isLoggedIn]);
   return (
-    <form onSubmit={handleLogin}>
+    <form onSubmit={handleAdminLogin}>
       <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
+          maxWidth: '35rem',
+          margin: '5rem auto',
         }}
       >
         <Typography
@@ -52,18 +48,19 @@ const SignIn = () => {
             marginBottom: '2rem',
           }}
         >
-          Sign In
+          Admin Login
         </Typography>
         <TextField
           variant='standard'
-          label='Email'
-          type='email'
-          onChange={handleEmailChange}
-          value={email}
+          label='Name'
+          type='text'
+          onChange={handleNameChange}
+          value={name}
           sx={{
             marginBottom: '2rem',
           }}
         />
+
         <TextField
           variant='standard'
           label='Password'
@@ -80,11 +77,11 @@ const SignIn = () => {
           type='submit'
           // disabled={true}
         >
-          Login
+          Admin Login
         </Button>
       </Box>
     </form>
   );
 };
 
-export default SignIn;
+export default AdminForm;

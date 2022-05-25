@@ -10,6 +10,9 @@ import Property from './pages/single-property/property.component';
 import store from './store/store';
 import AuthModal from './components/modals/auth.component';
 import Dashboard from './pages/dashboard/dashboard.component';
+import AlertNotification from './components/AlertNotification/alert.component';
+import AdminLogin from './pages/admin/admin-login.component';
+import AdminDashboard from './pages/admin/admin-dashboard.component';
 
 function App() {
   return (
@@ -17,12 +20,14 @@ function App() {
       <CssBaseline />
       <Navbar />
       <AuthModal />
-
+      <AlertNotification />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/property' element={<Property />} />
         <Route path='/add' element={<AddProperty />} />
         <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/admin' element={<AdminLogin />} />
+        <Route path='/adminDashboard' element={<AdminDashboard />} />
       </Routes>
       <Footer />
     </Provider>
