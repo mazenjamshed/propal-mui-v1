@@ -1,13 +1,47 @@
-import { ButtonGroup, Container, Paper, Typography } from '@mui/material';
+import {
+  Button,
+  ButtonGroup,
+  Container,
+  Paper,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { PrimaryOverlay } from '../../../components/overlays/primary-overlay.component';
 import { PrimaryButton } from './../../../components/buttons/primary-button.component';
 import HeroBg from './../../../assets/img/hero-1.jpg';
 import HeroBar from './../../../components/search-bars/hero-bar.component';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Hero = () => {
+  const navigate = useNavigate();
+
+  const [search, setSearch] = useState('');
+  const [propertyFor, setPropertyFor] = useState('buy');
+
+  const handleBuy = () => {
+    setPropertyFor('buy');
+  };
+  const handleRent = () => {
+    setPropertyFor('rent');
+  };
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!search) search = 'all';
+    navigate(`/property/search/${search}?propertyFor=${propertyFor}`);
+  };
+
   const buttons = [
-    <PrimaryButton key='rent'>Rent</PrimaryButton>,
-    <PrimaryButton key='buy'>Buy</PrimaryButton>,
+    <PrimaryButton key='buy' onClick={handleBuy}>
+      Buy
+    </PrimaryButton>,
+    <PrimaryButton key='rent' onClick={handleRent}>
+      Rent
+    </PrimaryButton>,
   ];
   return (
     <Paper
@@ -43,7 +77,17 @@ const Hero = () => {
             {buttons}
           </ButtonGroup>
 
-          <HeroBar />
+          {/* <HeroBar /> */}
+          <TextField
+            id='prop-search'
+            label='Search Properties'
+            value={search}
+            onChange={handleSearch}
+            sx={{ background: 'white' }}
+          />
+          <Button variant='contained' onClick={handleSubmit}>
+            Search
+          </Button>
         </Container>
       </PrimaryOverlay>
     </Paper>

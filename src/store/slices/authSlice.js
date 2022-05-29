@@ -23,6 +23,10 @@ const authSlice = createSlice({
     setUser(state, action) {
       state.user = action.payload;
     },
+    localAuthenticate(state, action) {
+      state.isAuthenticated = true;
+      state.user = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(loginAction.fulfilled, (state, action) => {

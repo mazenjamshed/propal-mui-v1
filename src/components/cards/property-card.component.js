@@ -1,8 +1,9 @@
 import { Box, Button, Paper, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-const PropertyCard = ({ linkHandler }) => {
+const PropertyCard = ({ linkHandler, title, price, description, id }) => {
   const navigate = useNavigate();
+  //!RLL console.log(id);
   return (
     <Paper
       elevation={24}
@@ -15,6 +16,7 @@ const PropertyCard = ({ linkHandler }) => {
         transform: 'skew(-8deg)',
         minHeight: '15rem',
         transition: '.2s all ease-in-out',
+        backgroundColor: '#e63936',
 
         '&:hover': {
           transform: 'scale(1.025) skew(-8deg)',
@@ -65,7 +67,7 @@ const PropertyCard = ({ linkHandler }) => {
               textTransform: 'uppercase',
             }}
           >
-            Main Title
+            {title}
           </Typography>
           <Typography
             variant='body1'
@@ -78,18 +80,19 @@ const PropertyCard = ({ linkHandler }) => {
               marginTop: '-.4rem',
             }}
           >
-            Main Title
+            Rs.{price}
           </Typography>
           <Typography variant='body1' component='h2' sx={{ marginY: '1.6rem' }}>
-            lormeimsaimsa akslmsa nmskanask lormeimsaimsa akslmsa
-            nmskanasklormeimsaimsa akslmsa nmskanask
+            {/* {description} */}
+            {/* //?Improve Later */}
+            <span dangerouslySetInnerHTML={{ __html: description }} />
           </Typography>
           <Button
             variant='contained'
             color='secondary'
             sx={{ backgroundColor: '#1d3557' }}
             onClick={() => {
-              navigate('./property');
+              navigate(`/property/${id}`);
             }}
           >
             See More

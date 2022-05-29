@@ -1,14 +1,32 @@
 import { Container, Typography, Box, Button } from '@mui/material';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 import PropertyCard from '../../../components/cards/property-card.component';
 
 const Rent = () => {
+  const [rentObj, setRentObj] = useState(null);
+  useEffect(() => {
+    const dummy = async () => {
+      try {
+        const rentData = await axios.get(
+          'http://localhost:6969/property/latest-property-rent'
+        );
+
+        setRentObj(rentData);
+      } catch (error) {
+        console.log('latest properties route error 😒');
+      }
+    };
+    dummy();
+  }, []);
+
+  const data = rentObj?.data?.data;
+
   return (
     <Box
       sx={{
         bgcolor: '#1d3557',
-        // backgroundImage:
-        //   'linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12)',
       }}
     >
       <Container maxWidth='lg' sx={{ padding: '3rem 5rem', color: '#fff' }}>
@@ -24,8 +42,19 @@ const Rent = () => {
             marginTop: '3rem',
           }}
         >
-          <PropertyCard />
-          <PropertyCard />
+          {/* <PropertyCard />
+          <PropertyCard /> */}
+          {data
+            ? data?.property?.map((prop) => (
+                <PropertyCard
+                  title={prop.title}
+                  id={prop._id}
+                  description={prop.description}
+                  price={prop.price}
+                  key={prop._id}
+                />
+              ))
+            : ''}
           <Button
             variant='contained'
             color='secondary'

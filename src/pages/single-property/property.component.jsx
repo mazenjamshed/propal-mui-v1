@@ -1,8 +1,36 @@
-import { Box, Typography, Container, Paper } from '@mui/material';
+import { Box, Typography, Container, Paper, Button } from '@mui/material';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import PropertyCollage from '../../components/collage/property-collage.component';
 
 const Property = () => {
-  return (
+  //It will recieve id as a prop
+  //with id fetch call will get the data from api
+  // Then it will be destructed and rendered
+
+  const [propData, setPropData] = useState(null);
+  const { id } = useParams();
+
+  const [contactToggle, setContactToggle] = useState(false);
+
+  const handleContactClick = () => {
+    setContactToggle((state) => !state);
+  };
+
+  useEffect(() => {
+    const dumb = async () => {
+      const data = await axios.get(`http://localhost:6969/property/${id}`);
+      setPropData(data);
+    };
+    dumb();
+  }, [id]);
+
+  const property = propData?.data?.data?.property;
+
+  console.log('prop-data', property);
+
+  return property ? (
     <Paper sx={{ bgcolor: '#a8dadc' }}>
       <Container sx={{ padding: ' 4rem 7rem', color: '#010101' }}>
         <Box
@@ -18,7 +46,7 @@ const Property = () => {
             component='h1'
             sx={{ letterSpacing: '.3rem', fontWeight: 300, fontSize: '2.6rem' }}
           >
-            [Property Name will be here bruh]
+            {property.title}
             <br />
           </Typography>
 
@@ -27,10 +55,10 @@ const Property = () => {
             component='h1'
             sx={{ color: '#1d3557', fontWeight: 500, fontSize: '2.1rem' }}
           >
-            [ 2.5 Crore]
+            Rs.{property.price}
           </Typography>
           <Typography sx={{ marginTop: '1.5rem' }}>
-            Location: [Lahore]
+            Location: {property.city}
           </Typography>
         </Box>
         <Box sx={{ width: '100' }}>
@@ -42,27 +70,21 @@ const Property = () => {
           About this Property:
         </Typography>
         <Typography variant='p' component='p'>
-          [ Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi,
-          inventore expedita optio a quisquam minima ratione porro obcaecati,
-          accusantium error magni facere in sunt quis ipsum voluptatem,
-          recusandae nostrum. Dolorum? Earum maxime quasi quos asperiores magnam
-          repellendus impedit sit eos libero perferendis iusto, explicabo
-          dolores dolore pariatur doloremque laborum omnis alias id natus illo
-          consequuntur officia exercitationem dolorum! Hic, consequuntur.
-          Officiis delectus quisquam aut corporis minus quas ducimus, quis error
-          veniam non architecto labore mollitia optio quod illo ab cum excepturi
-          voluptate consequatur repudiandae? Perferendis animi inventore velit
-          quidem praesentium. Consectetur possimus nisi iste! Ut, voluptatum
-          quibusdam fugiat vitae quasi doloremque omnis nobis dolorem
-          laudantium, atque tenetur aperiam! Nulla commodi incidunt ipsum
-          pariatur dolorum, fuga dolore distinctio minus delectus officia?
-          Cumque mollitia dolorum consequuntur consectetur voluptatum placeat
-          maiores eligendi! Fuga tempora, ut debitis reiciendis natus delectus
-          est voluptate molestiae sapiente quasi modi suscipit pariatur
-          accusamus alias ullam porro. Dolorum, sint!]
+          {/* {property.description}
+           */}
+          {/* //?Improve Later */}
+          <span dangerouslySetInnerHTML={{ __html: property.description }} />
         </Typography>
+
+        <Button variant='contained' onClick={handleContactClick}>
+          {' '}
+          Contact Owner
+        </Button>
+        {contactToggle ? <Box pt={2}> {property.phoneNumber}</Box> : ''}
       </Container>
     </Paper>
+  ) : (
+    'Unable to Load Property! Try Later'
   );
 };
 
