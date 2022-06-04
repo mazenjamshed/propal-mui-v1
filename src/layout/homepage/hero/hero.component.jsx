@@ -5,6 +5,7 @@ import {
   Paper,
   TextField,
   Typography,
+  Box,
 } from '@mui/material';
 import { PrimaryOverlay } from '../../../components/overlays/primary-overlay.component';
 import { PrimaryButton } from './../../../components/buttons/primary-button.component';
@@ -73,21 +74,59 @@ const Hero = () => {
             Pakistan's No.1 Real Estate Portal
           </Typography>
 
-          <ButtonGroup sx={{ margin: '2.5rem 0 1.2rem 0' }}>
-            {buttons}
-          </ButtonGroup>
+          <Box
+            sx={{
+              backgroundColor: 'rgba(0,0,0, 0.7);',
+              display: 'flex',
+              flexDirection: 'column',
+              padding: '2rem 2.4rem',
+              // filter: 'blur(5px)',
+              alignItems: 'center',
+              borderRadius: '1rem',
+              mt: '2rem',
+            }}
+          >
+            <Typography
+              variant='h3'
+              component='h3'
+              sx={{
+                fontSize: '1.8rem',
+                color: 'white',
+                textDecoration: 'underline',
+              }}
+            >
+              Serach for Properties
+            </Typography>
+            <ButtonGroup
+              sx={{
+                margin: '2.5rem 0 1.2rem 0',
+              }}
+            >
+              {buttons}
+            </ButtonGroup>
 
-          {/* <HeroBar /> */}
-          <TextField
-            id='prop-search'
-            label='Search Properties'
-            value={search}
-            onChange={handleSearch}
-            sx={{ background: 'white' }}
-          />
-          <Button variant='contained' onClick={handleSubmit}>
-            Search
-          </Button>
+            {/* <HeroBar /> */}
+            <TextField
+              id='prop-search'
+              label='Search Properties'
+              value={search}
+              onChange={handleSearch}
+              variant='filled'
+              sx={{
+                background: 'white',
+                fontWeight: 'bold',
+                borderRadius: '1rem',
+                padding: '0 .5rem',
+              }}
+            />
+            <Button
+              variant='contained'
+              onClick={handleSubmit}
+              sx={{ marginTop: '1rem', padding: '.4rem 5.2rem' }}
+            >
+              Search
+            </Button>
+          </Box>
         </Container>
       </PrimaryOverlay>
     </Paper>

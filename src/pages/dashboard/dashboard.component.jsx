@@ -24,10 +24,10 @@ const Dashboard = () => {
   const userData = useSelector(({ auth }) => auth.user);
   console.log('datakjkajksa', userData);
 
-  const notApprovedProperties = userData.properties.filter(
+  const notApprovedProperties = userData?.properties.filter(
     (prop) => prop.isApproved === false
   );
-  const approvedProperties = userData.properties.filter(
+  const approvedProperties = userData?.properties.filter(
     (prop) => prop.isApproved === true
   );
 
@@ -64,17 +64,53 @@ const Dashboard = () => {
 
   return (
     <Box>
-      <Typography
-        variant='h2'
-        componen='h1'
-        marginLeft={15}
-        marginTop={4}
-        marginBottom={1}
-        fontWeight='700'
-      >
-        Hello,{userData?.username}
-      </Typography>
-
+      <Box sx={{ background: '#A8DADC', width: '100%' }}>
+        <Typography
+          variant='h4'
+          component='h4'
+          sx={{
+            color: '#ddd',
+            fontWeight: '500',
+            textTransform: 'capitalize',
+            textAlign: 'center',
+            // ml: '6rem',
+            padding: '2rem 0',
+            bgcolor: '#1d3557',
+          }}
+        >
+          Welcome to the Dashboard!
+        </Typography>
+        <Typography
+          variant='h4'
+          component='h4'
+          sx={{
+            color: '#1d3557',
+            fontWeight: '500',
+            // textTransform: 'capitalize',
+            // fontSize: '2.7rem',
+            ml: '6rem',
+            padding: '1rem 0',
+          }}
+        >
+          Hello,
+          <Typography
+            variant='h4'
+            component='h4'
+            sx={{
+              fontStyle: 'italic',
+              color: '#1d3557',
+              fontWeight: 'bold',
+              textTransform: 'capitalize',
+              // fontSize: '2.7rem',
+              display: 'inline-block',
+              mr: '.5rem',
+            }}
+          >
+            {userData?.username}.
+          </Typography>
+          We have organized everything for you ;-)
+        </Typography>
+      </Box>
       {/* <DashNav />  //!Remove its file too later */}
       <Box marginY={7} sx={{ display: 'flex', gap: '5rem' }}>
         <ul className='container'>

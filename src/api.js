@@ -37,6 +37,16 @@ export const unApprovedProperties = async () => {
     };
   }
 };
+export const approveProperty = async (id) => {
+  try {
+    return await axios.patch(`http://localhost:6969/property/approve/${id}`);
+  } catch (exception) {
+    return {
+      error: true,
+      exception,
+    };
+  }
+};
 export const propertyDelete = async (id) => {
   try {
     return await axios.delete(`http://localhost:6969/property/${id}`);
