@@ -62,7 +62,7 @@ const Property = () => {
           </Typography>
         </Box>
         <Box sx={{ width: '100' }}>
-          <PropertyCollage />
+          <PropertyCollage images={property.images} />
         </Box>
 
         <Typography>Posted by: [USER]</Typography>

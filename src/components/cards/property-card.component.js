@@ -1,7 +1,14 @@
 import { Box, Button, Paper, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-const PropertyCard = ({ linkHandler, title, price, description, id }) => {
+const PropertyCard = ({
+  linkHandler,
+  title,
+  price,
+  description,
+  id,
+  coverImage,
+}) => {
   const navigate = useNavigate();
   //!RLL console.log(id);
   return (
@@ -33,7 +40,8 @@ const PropertyCard = ({ linkHandler, title, price, description, id }) => {
         }}
       >
         <img
-          src={require('./../../assets/img/hero-1.jpg')}
+          src={`http://localhost:6969/img/properties/${coverImage}`}
+          // src={require('./../../assets/img/hero-1.jpg')}
           alt='test'
           style={{
             width: '100%',
@@ -82,7 +90,12 @@ const PropertyCard = ({ linkHandler, title, price, description, id }) => {
           >
             Rs.{price}
           </Typography>
-          <Typography variant='body1' component='h2' sx={{ marginY: '1.6rem' }}>
+          <Typography
+            variant='body1'
+            component='h2'
+            sx={{ marginY: '1.6rem' }}
+            // width='80%'
+          >
             {/* {description} */}
             {/* //?Improve Later */}
             <span dangerouslySetInnerHTML={{ __html: description }} />

@@ -14,6 +14,7 @@ import AlertNotification from './components/AlertNotification/alert.component';
 import AdminLogin from './pages/admin/admin-login.component';
 import AdminDashboard from './pages/admin/admin-dashboard.component';
 import Search from './pages/search/search.component';
+import MyAccount from './pages/my-account/my-account.component';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path='/admin' element={<AdminLogin />} />
         <Route path='/adminDashboard' element={<AdminDashboard />} />
         <Route path='/property/search/:key' element={<Search />} />
+        <Route path='/myAccount' element={<MyAccount />} />
       </Routes>
       <Footer />
     </Provider>

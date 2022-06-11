@@ -155,7 +155,7 @@ const Navbar = () => {
                     <Avatar />
                     Dashboard
                   </MenuItem>
-                  <MenuItem>
+                  <MenuItem onClick={() => navigate('/myAccount')}>
                     <Avatar /> My account
                   </MenuItem>
                   <Divider />

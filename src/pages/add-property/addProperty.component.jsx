@@ -37,6 +37,7 @@ const AddProperty = () => {
   };
 
   const [propertyType, setPropertyType] = useState('residential');
+
   const handlePropertyType = (e) => {
     setPropertyType(e.target.value);
   };

@@ -123,3 +123,14 @@ export const addProperty = async (credentials) => {
     };
   }
 };
+
+export const getUserData = async (id) => {
+  try {
+    return await axios.get(`http://localhost:6969/users/${id}`);
+  } catch (exception) {
+    return {
+      error: true,
+      exception,
+    };
+  }
+};

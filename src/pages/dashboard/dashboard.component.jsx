@@ -4,15 +4,21 @@ import List from '../../components/dashboard/list.component';
 import DashNav from '../../components/dashboard/navi.component';
 import { styled } from '@mui/material/styles';
 import PropertyTab from '../../components/dashboard/propertytab.component';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+
+import { getUserData } from './../../api';
 
 const ListItem = styled('li')(() => ({
-  border: '1px solid #000',
+  border: '2px solid #1d3557',
   color: '#1d3557',
-  width: '14rem',
+  width: '16rem',
   display: 'block',
   padding: '.6rem 1.8rem',
   marginBottom: '.5rem',
+  letterSpacing: '.1rem',
+  fontWeight: 'bold',
+
   '&:hover': {
     backgroundColor: '#1d3557',
     color: 'white',
@@ -21,42 +27,59 @@ const ListItem = styled('li')(() => ({
 }));
 
 const Dashboard = () => {
-  const userData = useSelector(({ auth }) => auth.user);
-  console.log('datakjkajksa', userData);
+  // const userData = useSelector(({ auth }) => auth.user);
+  // console.log('datakjkajksa', userData);
 
-  const notApprovedProperties = userData?.properties.filter(
+  // axios.get("")
+  const x = JSON.parse(localStorage.getItem('user'));
+  console.log(x.data._id);
+  const uId = x.data._id;
+
+  const [userData, setUdata] = useState(null);
+  useEffect(() => {
+    const dummy = async () => {
+      const data = await getUserData(uId);
+
+      console.log('effeccctttt dasshhh');
+      setUdata(data.data.data.user);
+    };
+    dummy();
+  }, []);
+
+  console.log('uid data bitch', userData);
+  const notApprovedProperties = userData?.properties?.filter(
     (prop) => prop.isApproved === false
   );
-  const approvedProperties = userData?.properties.filter(
+  const approvedProperties = userData?.properties?.filter(
     (prop) => prop.isApproved === true
   );
 
   console.log('not approved', notApprovedProperties);
-  const [property, setProperty] = useState(false);
+  const [property, setProperty] = useState(true);
   const [active, setActive] = useState(false);
   const [discard, setDiscarded] = useState(false);
   const [setting, setSetting] = useState(false);
 
   const handleProperty = () => {
-    setProperty((state) => !state);
+    setProperty(true);
     setActive(false);
     setDiscarded(false);
     setSetting(false);
   };
   const handleActive = () => {
-    setActive((state) => !state);
+    setActive(true);
     setProperty(false);
     setDiscarded(false);
     setSetting(false);
   };
   const handleDiscarded = () => {
-    setDiscarded((state) => !state);
+    setDiscarded(true);
     setProperty(false);
     setActive(false);
     setSetting(false);
   };
   const handleSetting = () => {
-    setSetting((state) => !state);
+    setSetting(true);
     setDiscarded(false);
     setProperty(false);
     setActive(false);
@@ -114,21 +137,40 @@ const Dashboard = () => {
       {/* <DashNav />  //!Remove its file too later */}
       <Box marginY={7} sx={{ display: 'flex', gap: '5rem' }}>
         <ul className='container'>
-          <ListItem onClick={handleProperty}>Properties</ListItem>
-          <ListItem onClick={handleActive}>Approved Properties</ListItem>
-          <ListItem onClick={handleDiscarded}>Not Approved</ListItem>
+          <ListItem
+            onClick={handleProperty}
+            sx={{
+              background: `${property ? '#1d3557' : '#fff'}`,
+              color: `${property ? '#fff' : '#1d3557'}`,
+            }}
+          >
+            Properties
+          </ListItem>
+          <ListItem
+            onClick={handleActive}
+            sx={{
+              background: `${active ? '#1d3557' : '#fff'}`,
+              color: `${active ? '#fff' : '#1d3557'}`,
+            }}
+          >
+            Approved Properties
+          </ListItem>
+          <ListItem
+            onClick={handleDiscarded}
+            sx={{
+              background: `${discard ? '#1d3557' : '#fff'}`,
+              color: `${discard ? '#fff' : '#1d3557'}`,
+            }}
+          >
+            Not Approved
+          </ListItem>
           <ListItem onClick={handleSetting}>Account Settings</ListItem>
         </ul>
         {/* //Property */}
         {property ? (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-            {userData?.properties.map((prop, i) => (
-              <PropertyTab
-                title={prop.title}
-                price={prop.price}
-                description={prop.description}
-                key={i}
-              />
+            {userData?.properties?.map((prop, i) => (
+              <PropertyTab property={prop} key={i} />
             ))}
           </Box>
         ) : (
@@ -138,12 +180,7 @@ const Dashboard = () => {
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
             {approvedProperties.length > 0
               ? approvedProperties?.map((prop, i) => (
-                  <PropertyTab
-                    title={prop.title}
-                    price={prop.price}
-                    description={prop.description}
-                    key={i}
-                  />
+                  <PropertyTab property={prop} key={i} />
                 ))
               : 'There are no approved properties'}
           </Box>
@@ -153,12 +190,7 @@ const Dashboard = () => {
         {discard ? (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
             {notApprovedProperties?.map((prop, i) => (
-              <PropertyTab
-                title={prop.title}
-                price={prop.price}
-                description={prop.description}
-                key={i}
-              />
+              <PropertyTab property={prop} key={i} />
             ))}
           </Box>
         ) : (

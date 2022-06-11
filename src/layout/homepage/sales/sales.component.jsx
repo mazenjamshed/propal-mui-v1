@@ -52,6 +52,7 @@ const Sales = () => {
                   description={prop.description}
                   price={prop.price}
                   key={prop._id}
+                  coverImage={prop.coverImage}
                 />
               ))
             : ''}

@@ -47,10 +47,13 @@ const Hero = () => {
   return (
     <Paper
       sx={{
-        backgroundImage: `url(${HeroBg})`,
+        // backgroundImage: `url(${HeroBg})`,
+        backgroundImage:
+          "url('https://static.photocdn.pt/images/articles/2021/08/03/how_to_take_real_estate_exterior_photos.webp')",
         minHeight: '100vh',
         backgroundSize: 'cover',
         display: 'block',
+        backgroundPosition: 'center bottom',
       }}
     >
       <PrimaryOverlay>
