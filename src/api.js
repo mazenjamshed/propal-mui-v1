@@ -112,9 +112,49 @@ export const addProperty = async (credentials) => {
       userId = user.data._id;
       console.log(userId, `/property/${userId}`);
     } else {
-      console.log('User id not found');
+      // console.log('User id not found');
+      alert('Kindly Login to create property!');
     }
-    return await apiClient.post(`/property/${userId}`, credentials);
+    return await axios({
+      method: 'post',
+      url: 'http://localhost:6969/property/' + userId,
+      data: credentials,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+    // return await apiClient.post(`/property/${userId}`, credentials); //!--correct
+    // return await apiClient.get(`/property`, credentials);
+  } catch (exception) {
+    return {
+      error: true,
+      exception,
+    };
+  }
+};
+export const updateProperty = async (credentials) => {
+  try {
+    let userId;
+    console.log('credentials', credentials);
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      userId = user.data._id;
+      console.log(userId, `/property/${userId}`);
+    } else {
+      // console.log('User id not found');
+      alert('Kindly Login to create property!');
+    }
+    return await axios({
+      method: 'patch',
+      url: 'http://localhost:6969/property/' + userId,
+      data: credentials,
+      headers: {
+        // 'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+    // return await apiClient.post(`/property/${userId}`, credentials); //!--correct
     // return await apiClient.get(`/property`, credentials);
   } catch (exception) {
     return {

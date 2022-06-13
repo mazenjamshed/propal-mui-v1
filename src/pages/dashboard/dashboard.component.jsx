@@ -58,32 +58,32 @@ const Dashboard = () => {
   const [property, setProperty] = useState(true);
   const [active, setActive] = useState(false);
   const [discard, setDiscarded] = useState(false);
-  const [setting, setSetting] = useState(false);
+  // const [setting, setSetting] = useState(false);
 
   const handleProperty = () => {
     setProperty(true);
     setActive(false);
     setDiscarded(false);
-    setSetting(false);
+    // setSetting(false);
   };
   const handleActive = () => {
     setActive(true);
     setProperty(false);
     setDiscarded(false);
-    setSetting(false);
+    // setSetting(false);
   };
   const handleDiscarded = () => {
     setDiscarded(true);
     setProperty(false);
     setActive(false);
-    setSetting(false);
+    // setSetting(false);
   };
-  const handleSetting = () => {
-    setSetting(true);
-    setDiscarded(false);
-    setProperty(false);
-    setActive(false);
-  };
+  // const handleSetting = () => {
+  //   setSetting(true);
+  //   setDiscarded(false);
+  //   setProperty(false);
+  //   setActive(false);
+  // };
 
   return (
     <Box>
@@ -164,7 +164,7 @@ const Dashboard = () => {
           >
             Not Approved
           </ListItem>
-          <ListItem onClick={handleSetting}>Account Settings</ListItem>
+          {/* <ListItem onClick={handleSetting}>Account Settings</ListItem> */}
         </ul>
         {/* //Property */}
         {property ? (
@@ -196,7 +196,7 @@ const Dashboard = () => {
         ) : (
           ''
         )}
-        {setting ? <h2>Account Settings</h2> : ''}
+        {/* {setting ? <h2>Account Settings</h2> : ''} */}
       </Box>
     </Box>
   );

@@ -31,6 +31,29 @@ export const addProperty = createAsyncThunk(
     }
   }
 );
+export const updateProperty = createAsyncThunk(
+  'property/update',
+  async (payload, thunkApi) => {
+    try {
+      console.log(payload);
+      const response = await api.updateProperty(payload);
+
+      console.log(response);
+
+      if (!response.data) {
+        thunkApi.dispatch(
+          alertActions.openAlertBox(response.exception?.response?.data?.message)
+        );
+      } else {
+        thunkApi.dispatch(
+          alertActions.openAlertBox('Property Successfully Updated!')
+        );
+      }
+    } catch (error) {
+      console.log('custom error ***', error);
+    }
+  }
+);
 export const propertyActions = propertySlice.actions;
 
 export default propertySlice;

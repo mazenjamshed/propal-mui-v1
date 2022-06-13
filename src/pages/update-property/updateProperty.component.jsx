@@ -12,25 +12,51 @@ import {
   MenuItem,
   Button,
 } from '@mui/material';
-import axios from 'axios';
 import { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
-import { useDispatch } from 'react-redux';
-import { addProperty } from '../../store/slices/propertySlice';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import axios from 'axios';
+const UpdateProperty = () => {
+  const { id } = useParams();
+  console.log('idddd workin', id);
 
-const AddProperty = () => {
-  const user = JSON.parse(localStorage.getItem('user'));
+  // const [property, setProperty] = useState(null);
 
+  // useEffect(() => {
+  //   const dummy = async () => {
+  //     try {
+  //       // if (!id) return;
+  //       const propertyData = await axios.get(
+  //         `http://localhost:6969/property/${id}`
+  //       );
+
+  //       // if (!property) return;
+  //       console.log('update effect');
+  //       setProperty(propertyData?.data?.data?.property);
+  //     } catch (error) {
+  //       console.log('Error getting property details! 😒');
+  //     }
+  //   };
+
+  //   setTitle(property?.title);
+  //   console.log('changed by effect✅');
+  //   setPrice(property?.price);
+
+  //   dummy();
+  // }, []);
+
+  // console.log('property working', property);
+  //!---------------
   const [title, setTitle] = useState('');
-  const [selectedCover, setSelectedCover] = useState(null);
-  const [selectedFile, setSelectedFile] = useState([]);
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
+    console.log('changed by handler ❌');
   };
 
   const [price, setPrice] = useState('');
@@ -82,91 +108,35 @@ const AddProperty = () => {
   const handleDescriptionChange = (e) => {
     setDescription(e);
   };
+  const [selectedImage, setSelectedImage] = useState(null);
+  const user = JSON.parse(localStorage.getItem('user'));
 
-  const dispatch = useDispatch();
+  const handleSubmission = async (e) => {
+    e.preventDefault();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const formData = new FormData();
-    formData.append('coverImage', selectedCover);
-    // formData.append('images', selectedFile);
-    for (let i = 0; i < selectedFile.length; i++) {
-      formData.append('images', selectedFile[i]);
-    }
-    formData.append('title', title);
-    formData.append('price', price);
-    formData.append('propertyFor', propertyFor);
-    formData.append('propertyType', propertyType);
-    formData.append('city', city);
-    formData.append('area', area);
-    formData.append('detailedAddress', detailedAddress);
-    formData.append('phoneNumber', phoneNumber);
-    formData.append('description', description);
-    // selectedFile.map((f)=>formData.append("images",f))
+    const res = await axios({
+      method: 'patch',
+      url: 'http://localhost:6969/property/' + id,
+      data: {
+        title,
+        price,
+        propertyFor,
+        propertyType,
+        city,
+        area,
+        detailedAddress,
+        phoneNumber,
+        description,
+      },
+      headers: {
+        // 'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
 
-    // try {
-    //   let token = JSON.parse(localStorage.getItem('user')).token;
-    //   console.log('tok', user);
-    //   const response = await axios({
-    //     method: 'post',
-    //     url: 'http://localhost:6969/property/' + user.data._id,
-    //     data: formData,
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data',
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   });
-    //   console.log(response);
-    // } catch (error) {
-    //   console.log(error);
-    // }
-
-    dispatch(addProperty(formData));
+    console.log(res);
+    if (res.statusText === 'Created') alert('Property Updated successfully');
   };
-
-  // const handleSubmission = (e) => {
-  //   // Object of all Values
-  //   console.log({
-  //     title,
-  //     price,
-  //     propertyFor,
-  //     propertyType,
-  //     city,
-  //     area,
-  //     detailedAddress,
-  //     phoneNumber,
-  //     description,
-  //   });
-
-  //   dispatch(
-  //     addProperty({
-  //       coverImage: selectedCover,
-  //       images: selectedFile,
-  //       title,
-  //       price,
-  //       propertyFor,
-  //       propertyType,
-  //       city,
-  //       area,
-  //       detailedAddress,
-  //       phoneNumber,
-  //       description,
-  //     })
-  //   );
-  // };
-
-  //!=============================
-  const handleCoverSelect = (event) => {
-    setSelectedCover(event.target.files[0]);
-  };
-  const handleFileSelect = (event) => {
-    setSelectedFile([...event.target.files]);
-    // event.target.files.map((f)=>selectedFile.push(f));
-  };
-
-  console.log('should be array', selectedFile);
-  // ---------------------------------Handlers -----------------------------------------
-
   return (
     <Box>
       <Box
@@ -180,7 +150,7 @@ const AddProperty = () => {
         }}
       >
         <Typography variant='h2' component='h1'>
-          Add a property
+          Update property
         </Typography>
         <Typography variant='body1' component='h2'>
           Sell or rent out your property. Enter your property details below to
@@ -309,6 +279,15 @@ const AddProperty = () => {
             placeholder='+92 333 1234567'
           />
 
+          {/* <input
+            type='file'
+            name='myImage'
+            onChange={(event) => {
+              console.log(event.target.files[0]);
+              setSelectedImage(event.target.files[0]);
+            }}
+          /> */}
+
           <Box>
             <ReactQuill
               theme='snow'
@@ -317,16 +296,6 @@ const AddProperty = () => {
             />
           </Box>
         </Box>
-        <h4>Upload Cover Photo</h4>
-        <input type='file' id='houseFile' onChange={handleCoverSelect} />
-        <h4>Upload Images</h4>
-        <input
-          type='file'
-          id='houseFile'
-          multiple
-          onChange={handleFileSelect}
-        />
-
         <Button
           variant='filled'
           size='large'
@@ -337,7 +306,7 @@ const AddProperty = () => {
             width: '16rem',
             margin: '2rem 0',
           }}
-          onClick={handleSubmit}
+          onClick={handleSubmission}
         >
           Submit
         </Button>
@@ -346,4 +315,4 @@ const AddProperty = () => {
   );
 };
 
-export default AddProperty;
+export default UpdateProperty;

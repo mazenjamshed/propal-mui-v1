@@ -1,4 +1,4 @@
-import { styled, Button } from '@mui/material';
+import { styled, Button, Typography, Box } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { approveProperty, unApprovedProperties } from '../../api';
@@ -56,23 +56,47 @@ const AdminDashboard = () => {
   const users = adminData?.users;
   return (
     <>
-      <div>This is admin dashboard</div>
-      <ListItem onClick={handleUserClicked}>Users: </ListItem>
-      <ListItem onClick={handleUnApprovedClicked}>UnApproved Requests</ListItem>
-      {userClicked &&
-        users?.map((user, i) => <UserBox userObj={user} key={i} />)}
-      {unApprovedClicked &&
-        unApproved &&
-        unApproved.data.data.properties?.map((prop, i) => (
-          <li key={i}>
-            {prop.title}
-            {prop._id}
+      <Typography
+        variant='h4'
+        component='h4'
+        sx={{
+          color: '#ddd',
+          fontWeight: '500',
+          textTransform: 'capitalize',
+          textAlign: 'center',
+          // ml: '6rem',
+          padding: '2rem 0',
+          bgcolor: '#1d3557',
+        }}
+      >
+        Welcome Admin!
+      </Typography>
 
-            <Button onClick={handleApproval} data-id={prop._id}>
-              Approve this
-            </Button>
-          </li>
-        ))}
+      <Box sx={{ padding: '4rem 6rem', display: 'flex' }}>
+        <Box sx={{ flexBasis: '30%' }}>
+          {' '}
+          <ListItem onClick={handleUserClicked}>Users: </ListItem>
+          <ListItem onClick={handleUnApprovedClicked}>
+            UnApproved Requests
+          </ListItem>
+        </Box>
+        <Box sx={{ flexBasis: '70%' }}>
+          {userClicked &&
+            users?.map((user, i) => <UserBox userObj={user} key={i} />)}
+          {unApprovedClicked &&
+            unApproved &&
+            unApproved.data.data.properties?.map((prop, i) => (
+              <li key={i}>
+                {prop.title}
+                {prop._id}
+
+                <Button onClick={handleApproval} data-id={prop._id}>
+                  Approve this
+                </Button>
+              </li>
+            ))}
+        </Box>
+      </Box>
     </>
   );
 };

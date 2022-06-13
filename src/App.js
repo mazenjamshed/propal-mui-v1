@@ -15,6 +15,8 @@ import AdminLogin from './pages/admin/admin-login.component';
 import AdminDashboard from './pages/admin/admin-dashboard.component';
 import Search from './pages/search/search.component';
 import MyAccount from './pages/my-account/my-account.component';
+import UpdateProperty from './pages/update-property/updateProperty.component';
+// import CostCalculator from './pages/costCalculator/costCalculator';
 
 function App() {
   return (
@@ -32,6 +34,8 @@ function App() {
         <Route path='/adminDashboard' element={<AdminDashboard />} />
         <Route path='/property/search/:key' element={<Search />} />
         <Route path='/myAccount' element={<MyAccount />} />
+        <Route path='/updateProperty/:id' element={<UpdateProperty />} />
+        {/* <Route path='/costCalc' element={<CostCalculator />} /> */}
       </Routes>
       <Footer />
     </Provider>

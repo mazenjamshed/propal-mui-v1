@@ -12,7 +12,6 @@ import {
   MenuItem,
   Button,
 } from '@mui/material';
-import axios from 'axios';
 import { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -23,12 +22,7 @@ import { useDispatch } from 'react-redux';
 import { addProperty } from '../../store/slices/propertySlice';
 
 const AddProperty = () => {
-  const user = JSON.parse(localStorage.getItem('user'));
-
   const [title, setTitle] = useState('');
-  const [selectedCover, setSelectedCover] = useState(null);
-  const [selectedFile, setSelectedFile] = useState([]);
-
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
   };
@@ -84,87 +78,53 @@ const AddProperty = () => {
   };
 
   const dispatch = useDispatch();
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmission = (e) => {
+    // Object of all Values
+    console.log({
+      title,
+      price,
+      propertyFor,
+      propertyType,
+      city,
+      area,
+      detailedAddress,
+      phoneNumber,
+      description,
+    });
     const formData = new FormData();
-    formData.append('coverImage', selectedCover);
-    // formData.append('images', selectedFile);
-    for (let i = 0; i < selectedFile.length; i++) {
-      formData.append('images', selectedFile[i]);
-    }
-    formData.append('title', title);
-    formData.append('price', price);
-    formData.append('propertyFor', propertyFor);
-    formData.append('propertyType', propertyType);
-    formData.append('city', city);
-    formData.append('area', area);
-    formData.append('detailedAddress', detailedAddress);
-    formData.append('phoneNumber', phoneNumber);
-    formData.append('description', description);
-    // selectedFile.map((f)=>formData.append("images",f))
 
-    // try {
-    //   let token = JSON.parse(localStorage.getItem('user')).token;
-    //   console.log('tok', user);
-    //   const response = await axios({
-    //     method: 'post',
-    //     url: 'http://localhost:6969/property/' + user.data._id,
-    //     data: formData,
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data',
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   });
-    //   console.log(response);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    // formData.append('data', {
+    //   title,
+    //   price,
+    //   propertyFor,
+    //   propertyType,
+    //   city,
+    //   area,
+    //   detailedAddress,
+    //   phoneNumber,
+    //   description,
+    // });
+    formData.append('coverImage', selectedImage);
 
-    dispatch(addProperty(formData));
+    console.log('formmm', formData);
+
+    // dispatch(
+    //   addProperty({
+    //     title,
+    //     price,
+    //     propertyFor,
+    //     propertyType,
+    //     city,
+    //     area,
+    //     detailedAddress,
+    //     phoneNumber,
+    //     description,
+    //   })
+    // );
   };
-
-  // const handleSubmission = (e) => {
-  //   // Object of all Values
-  //   console.log({
-  //     title,
-  //     price,
-  //     propertyFor,
-  //     propertyType,
-  //     city,
-  //     area,
-  //     detailedAddress,
-  //     phoneNumber,
-  //     description,
-  //   });
-
-  //   dispatch(
-  //     addProperty({
-  //       coverImage: selectedCover,
-  //       images: selectedFile,
-  //       title,
-  //       price,
-  //       propertyFor,
-  //       propertyType,
-  //       city,
-  //       area,
-  //       detailedAddress,
-  //       phoneNumber,
-  //       description,
-  //     })
-  //   );
-  // };
 
   //!=============================
-  const handleCoverSelect = (event) => {
-    setSelectedCover(event.target.files[0]);
-  };
-  const handleFileSelect = (event) => {
-    setSelectedFile([...event.target.files]);
-    // event.target.files.map((f)=>selectedFile.push(f));
-  };
-
-  console.log('should be array', selectedFile);
+  const [selectedImage, setSelectedImage] = useState(null);
   // ---------------------------------Handlers -----------------------------------------
 
   return (
@@ -309,6 +269,15 @@ const AddProperty = () => {
             placeholder='+92 333 1234567'
           />
 
+          <input
+            type='file'
+            name='myImage'
+            onChange={(event) => {
+              console.log(event.target.files[0]);
+              setSelectedImage(event.target.files[0]);
+            }}
+          />
+
           <Box>
             <ReactQuill
               theme='snow'
@@ -317,16 +286,6 @@ const AddProperty = () => {
             />
           </Box>
         </Box>
-        <h4>Upload Cover Photo</h4>
-        <input type='file' id='houseFile' onChange={handleCoverSelect} />
-        <h4>Upload Images</h4>
-        <input
-          type='file'
-          id='houseFile'
-          multiple
-          onChange={handleFileSelect}
-        />
-
         <Button
           variant='filled'
           size='large'
@@ -337,7 +296,7 @@ const AddProperty = () => {
             width: '16rem',
             margin: '2rem 0',
           }}
-          onClick={handleSubmit}
+          onClick={handleSubmission}
         >
           Submit
         </Button>

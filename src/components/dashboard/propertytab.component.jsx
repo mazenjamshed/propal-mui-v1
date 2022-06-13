@@ -13,6 +13,11 @@ const PropertyTab = ({ property }) => {
     // console.log('view', property);
     navigate(`/property/${property._id}`);
   };
+
+  const handleUpdateProperty = (e) => {
+    console.log('update property clicked', property._id);
+    navigate(`/updateProperty/${property._id}`);
+  };
   return (
     <Box
       sx={{
@@ -177,6 +182,7 @@ const PropertyTab = ({ property }) => {
                 transition: 'all .2s',
               },
             }}
+            onClick={handleUpdateProperty}
           >
             Edit Property
           </Typography>
